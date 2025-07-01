@@ -1,12 +1,12 @@
 from snowflake.snowpark import Session
+import toml
 import streamlit as st
+import altair as alt
 
-# Load credentials securely from Streamlit secrets
-connection_parameters = st.secrets["snowflake"]
+with open(".streamlit/secrets.toml") as f:
+    secrets = toml.load(f)
 
-# Create a Snowflake session
-session = Session.builder.configs(connection_parameters).create()
-
+session = Session.builder.configs(secrets["snowflake"]).create()
 st.set_page_config(layout="wide")
 st.title("AI 100 Firmographics Dashboard")
 st.caption("Explore trends across valuation, geography, sectors, models, and company age.")
